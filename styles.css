@@ -1,0 +1,41 @@
+body {
+    font-family: 'Indie Flower', cursive;
+}
+
+header {
+    font-size: 48pt;
+    text-align: center;
+}
+
+#board {
+    width: 370px;
+    height: 370px;
+    margin: 100px auto;
+    padding: 0;
+    font-size: 0;
+}
+
+.square {
+    font-size: 12pt;
+    margin: 0;
+    padding: 0;
+    width: 120px;
+    height: 120px;
+    display: inline-block;
+}
+
+.top {
+    border-bottom: 5px solid #000;
+}
+
+.bottom {
+    border-top: 5px solid #000;
+}
+
+.left {
+    border-right: 5px solid #000;
+}
+
+.right {
+    border-left: 5px solid #000;
+}

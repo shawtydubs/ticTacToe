@@ -22,6 +22,7 @@ header {
     width: 120px;
     height: 120px;
     display: inline-block;
+    vertical-align: top;
 }
 
 .top {
@@ -41,5 +42,7 @@ header {
 }
 
 .taken {
-    background-color: green;
+    text-align: center;
+    font-size: 55pt;
+    pointer-events: none;
 }

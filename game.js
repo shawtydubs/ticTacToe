@@ -1,8 +1,5 @@
 var gameOver = false;
 
-var playerToken = 'X';
-var computerToken = 'O';
-
 var rows = [
     'top',
     'middle',
@@ -14,8 +11,26 @@ var rows = [
     'diag-two'
 ]
 
+$('#X').click(function() {
+    playerToken = 'X';
+    computerToken = 'O';
+    unhideBoard();
+});
+
+$('#O').click(function() {
+    playerToken = 'O';
+    computerToken = 'X';
+    unhideBoard();
+    computerTurn();
+});
+
+function unhideBoard() {
+    $('#decision').addClass('hidden');
+    $('#board').removeClass('hidden');
+}
+
 $('.square').click(function() {
-    $(this).addClass('taken').addClass('player');
+    $(this).addClass('taken player');
     $(this).append(playerToken);
     checkFinished();
     if (!gameOver) computerTurn();
@@ -24,7 +39,7 @@ $('.square').click(function() {
 function computerTurn() {
     var openSquares = $('.square').filter(':not(.taken)');
     var selectedSquare = openSquares[Math.floor(Math.random() * openSquares.length)];
-    $(selectedSquare).addClass('taken').addClass('computer');
+    $(selectedSquare).addClass('taken computer');
     $(selectedSquare).append(computerToken);
     checkFinished();
 }
@@ -37,19 +52,16 @@ function checkFinished() {
     var playerCount = addSquares(playerSquares);
     var computerCount = addSquares(computerSquares);
 
-    console.group('Player Count');console.log(playerCount);console.groupEnd();
-    console.group('Computer Count');console.log(computerCount);console.groupEnd();
-
     if (Object.values(playerCount).indexOf(3) > -1) {
-        $('#endGame').append('You won!').removeClass('hidden');
+        $('#endGame').append('Game Over. You won!').removeClass('hidden');
         endGame();
     } 
     else if (Object.values(computerCount).indexOf(3) > -1) {
-        $('#endGame').append('Computer won!').removeClass('hidden');
+        $('#endGame').append('Game Over. The computer won!').removeClass('hidden');
         endGame();
     } 
     else if (takenSquares.length == 9) {
-        $('#endGame').append("It's a draw").removeClass('hidden');
+        $('#endGame').append("Gamve Over. It's a draw").removeClass('hidden');
         endGame();
     }
 }
@@ -69,4 +81,13 @@ function addSquares(squares) {
 function endGame() {
     gameOver = true;
     $('.square').addClass('taken');
+    $('#reset').removeClass('hidden');
 }
+
+$('#reset-button').click(function() {
+    $('#endGame, .square').empty();
+    $('#decision').removeClass('hidden');
+    $('#endGame, #reset, #board').addClass('hidden');
+    $('.square').removeClass('taken player computer');
+    gameOver = false;
+})

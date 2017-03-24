@@ -1,4 +1,5 @@
 var gameOver = false;
+var round = 0;
 
 var rows = [
     'top',
@@ -37,8 +38,35 @@ $('.square').click(function() {
 });
 
 function computerTurn() {
+    round++;
+    console.log('Round ' + round);
     var openSquares = $('.square').filter(':not(.taken)');
-    var selectedSquare = openSquares[Math.floor(Math.random() * openSquares.length)];
+    var playerSquares = $('.square').filter('.player');
+    var playerCount = addSquares(playerSquares);
+    var selectedSquare = openSquares[Math.floor(Math.random() * openSquares.length)]
+
+    console.group('Player Count:');console.log(playerCount);console.groupEnd();
+
+    if (round == 1 && openSquares.filter('#middle-center').length == 1) {
+        console.log('Selecting middle square');
+        selectedSquare = openSquares.filter('#middle-center');
+    } else if (round == 1 && openSquares.filter('#middle-center').length == 0) {
+        console.log('Selecting corner square');
+        selectedSquare = openSquares.filter('#top-left');
+    }
+
+    for (var row in playerCount) {
+        console.log('Row to check: ' + row);
+        console.group('Open Squares:');console.log(openSquares.filter('.' + row));console.groupEnd();
+
+        if (playerCount[row] == 2 && openSquares.filter('.' + row).length == 1) {
+            console.log('Selecting blocking square');
+            selectedSquare = openSquares.filter('.' + row);
+            break;
+        } 
+    }
+    console.group('Selected square');console.log(selectedSquare);console.groupEnd();
+
     $(selectedSquare).addClass('taken computer');
     $(selectedSquare).append(computerToken);
     checkFinished();
@@ -90,4 +118,5 @@ $('#reset-button').click(function() {
     $('#endGame, #reset, #board').addClass('hidden');
     $('.square').removeClass('taken player computer');
     gameOver = false;
+    round = 0;
 })
